@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar CTOs</title>
+    <!-- Favicon (Ícone da aba do navegador) -->
+    <link rel="icon" type="image/png" href="https://proxxima.net/storage/app/media/xx.ico">
+    <!-- Bootstrap CSS (Framework CSS para estilização responsiva) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (Biblioteca de ícones) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Custom CSS (Nosso arquivo de estilo personalizado) -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Cabeçalho da aplicação -->
+        <header class="app-header">
+            <h1>Verificar CTOs</h1>
+            <p>Sistema de Verificação e Monitoramento de CTOs</p>
+        </header>
+
+        <!-- Seção principal da aplicação -->
+        <main class="app-main">
+            <!-- Seção do formulário -->
+            <section class="form__section">
+                <h2 class="form__section-title">Preencha os dados para seguir com a verificação de CTO</h2>
+                <!-- Formulário para inserir os dados da CTO -->
+                <form id="ctoForm">
+                    <!-- Grupo de campos: Protocolo -->
+                    <div class="form-group">
+                        <label for="protocoloInput">Protocolo (Opcional):</label>
+                        <input type="text" class="form-control" id="protocoloInput" placeholder="Ex: 5841641">
+                    </div>
+                    <!-- Grupo de campos: Nome da caixa CTO -->
+                    <div class="form-group">
+                        <label for="ctoNameInput">Nome da caixa CTO:</label>
+                        <input type="text" class="form-control" id="ctoNameInput" placeholder="Ex: CTO-CUM-NATAL">
+                    </div>
+                    <!-- Grupo de campos: Nome da GPON -->
+                    <div class="form-group">
+                        <label for="gponInput">Nome da GPON (Opcional):</label>
+                        <input type="text" class="form-control" id="gponInput" placeholder="Ex: 1/2/8">
+                    </div>
+                    <!-- Grupo de campos: Quantidade de portas -->
+                    <div class="form-group">
+                        <label for="portCountInput">Quantidade de portas:</label>
+                        <input type="number" class="form-control" id="portCountInput" placeholder="Ex: 6, 8, 12, 16" min="1" max="32">
+                    </div>
+                    <!-- Container para o botão de adicionar -->
+                    <div class="form__buttons-container">
+                        <button type="submit" class="btn btn-custom form__submit-button">Adicionar</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Seção da lista de CTOs (tabela) -->
+            <section class="cto-list">
+                <div id="gponTitleContainer"></div>
+                <div class="table-responsive">
+                    <!-- Tabela de CTOs -->
+                    <table class="table table-striped cto-table">
+                        <thead>
+                            <tr>
+                                <th>Porta</th>
+                                <th>ID</th>
+                                <th>Status</th>
+                                <th>Verificação</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <!-- Corpo da tabela (onde as linhas serão adicionadas dinamicamente) -->
+                        <tbody id="ctoTableBody">
+                            <!-- Linhas da tabela serão adicionadas aqui -->
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Botão para gerar relatório -->
+                <button type="button" class="btn btn-custom" id="gerarRelatorioBtn">Gerar Relatório e Copiar</button>
+            </section>
+
+             <!-- Container para o relatório -->
+            <div id="relatorioContainer"></div>
+
+        </main>
+
+        <!-- Rodapé da aplicação -->
+        <footer class="app-footer">
+            <p>© 2024 Gabriel A. Souza - Backoffice Redes. Todos os direitos reservados.</p>
+            <a href="https://github.com/gabriel-souza-developer" target="_blank" class="app-footer__github-link">
+                <i class="fab fa-github"></i>
+            </a>
+        </footer>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper (Javascript do Bootstrap) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript (Nosso arquivo Javascript personalizado) -->
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

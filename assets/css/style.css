@@ -204,16 +204,10 @@ label {
     background-color: #c0247b;
 }
 
-/* Estilo específico para o botão de gerar relatório */
-#gerarRelatorioBtn {
-    width: 100%; /* Garante que o botão ocupe toda a largura */
-    display: block; /* Garante que a margem automática funcione */
-    margin: 10px auto; /* Centraliza horizontalmente e adiciona margem */
-}
-
 .hidden {
     display: none;
 }
+
 
 #relatorioContainer {
     background-color: #fff;

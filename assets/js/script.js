@@ -126,8 +126,11 @@ document.addEventListener('DOMContentLoaded', function() {
             newRow.appendChild(acoesCell);
 
             ctoTableBody.appendChild(newRow);
+
+            gerarRelatorioBtn.style.display = 'block';
         }
     }
+
 
     // Cria o relatório
     function generateReport() {
@@ -189,8 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
    // Gerar Relatório
    gerarRelatorioBtn.addEventListener('click', function() {
-    validateForm(); 
 
+    validateForm(); 
+    gerarRelatorioBtn.style.display = 'block';
      relatorioContainer.style.display = 'block';
 
    const relatorio = generateReport(); // Gera o relatório

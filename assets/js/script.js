@@ -12,6 +12,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const gerarRelatorioBtn = document.getElementById('gerarRelatorioBtn');
     const relatorioContainer = document.getElementById('relatorioContainer');
 
+    // Variáveis para os valores dos campos
+    let protocoloValue = '';
+    let ctoNameValue = '';
+    let gponNameValue = '';
+    let portCountValue = '';
+
     // Funções auxiliares
 
     // Exibe mensagens de erro ou sucesso
@@ -29,8 +35,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Valida os campos do formulário
     function validateForm() {
-        if (protocoloInput.value.trim() === '' || ctoNameInput.value.trim() === '' || isNaN(parseInt(portCountInput.value)) || parseInt(portCountInput.value) <= 0) {
-            showMessage('Por favor, preencha o protocolo, o nome da CTO e a quantidade de portas corretamente.', 'danger');
+        protocoloValue = protocoloInput.value.trim();
+        ctoNameValue = ctoNameInput.value.trim();
+        gponNameValue = gponInput.value.trim(); // Captura o valor da GPON
+        portCountValue = parseInt(portCountInput.value);
+
+        if (protocoloValue === '' || ctoNameValue === '' || isNaN(portCountValue) || portCountValue <= 0) {
+            showMessage('Por favor, preencha o protocolo, o nome da CTO/OLT e a quantidade de portas corretamente.', 'danger');
             return false;
         }
         return true;
@@ -46,14 +57,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         let titleText = ``;
-        if (protocoloInput.value.trim()) {
-            titleText += `Protocolo: ${protocoloInput.value.trim()} - `;
+        if (protocoloValue) {
+            titleText += `PROTOCOLO: ${protocoloValue} - `;
         }
-        titleText += `Verificação CTO ${ctoNameInput.value.trim()}`;
-        if (gponInput.value.trim()) {
-            titleText += ` - GPON: ${gponInput.value.trim()}`;
+        titleText += `VERIFICAR CTO/OLT: ${ctoNameValue}`;
+        if (gponNameValue) {
+            titleText += ` - GPON: ${gponNameValue}`;
         }
-        titleText += ` - Portas: ${parseInt(portCountInput.value)}`;
+        titleText += ` - PORTAS: ${portCountValue}`;
         gponTitle.textContent = titleText;
     }
 
@@ -63,47 +74,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
         for (let i = 1; i <= parseInt(portCountInput.value); i++) {
             const newRow = document.createElement('tr');
+            newRow.classList.add('minha-tabela__linha');
+
             const portaCell = document.createElement('td');
             portaCell.textContent = i;
+            portaCell.classList.add('minha-tabela__celula');
             newRow.appendChild(portaCell);
 
             const idCell = document.createElement('td');
+            idCell.classList.add('minha-tabela__celula');
             const idInput = document.createElement('input');
             idInput.type = 'text';
-            idInput.classList.add('form-control', 'form-control-sm');
+            idInput.classList.add('form-control-custom'); /* Removido form-control, form-control-sm */
             idCell.appendChild(idInput);
             newRow.appendChild(idCell);
 
             const statusCell = document.createElement('td');
+            statusCell.classList.add('minha-tabela__celula');
             const statusSelect = document.createElement('select');
-            statusSelect.classList.add('form-select', 'form-select-sm');
+            statusSelect.classList.add('form-select-custom'); /* Removido form-select, form-select-sm */
             const statusOptions = ['', 'Livre', 'Em uso', 'Com defeito'];
             statusOptions.forEach(option => {
                 const statusOption = document.createElement('option');
                 statusOption.value = option;
-                statusOption.textContent = option || 'Selecione';
+                statusOption.textContent = option || ''; /*Removendo SELECIONE, para ficar vazio*/
                 statusSelect.appendChild(statusOption);
             });
             statusCell.appendChild(statusSelect);
             newRow.appendChild(statusCell);
 
             const verificacaoCell = document.createElement('td');
+            verificacaoCell.classList.add('minha-tabela__celula');
             const verificacaoSelect = document.createElement('select');
-            verificacaoSelect.classList.add('form-select', 'form-select-sm');
+            verificacaoSelect.classList.add('form-select-custom'); /* Removido form-select, form-select-sm */
             const verificacaoOptions = ['', 'Cliente Online', 'Cliente Offline'];
             verificacaoOptions.forEach(option => {
                 const verificacaoOption = document.createElement('option');
                 verificacaoOption.value = option;
-                verificacaoOption.textContent = option || 'Selecione';
+                verificacaoOption.textContent = option || ''; /*Removendo SELECIONE, para ficar vazio*/
                 verificacaoSelect.appendChild(verificacaoOption);
             });
             verificacaoCell.appendChild(verificacaoSelect);
             newRow.appendChild(verificacaoCell);
 
             const acoesCell = document.createElement('td');
+            acoesCell.classList.add('minha-tabela__celula');
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Excluir';
-            deleteButton.classList.add('btn', 'btn-sm', 'btn-danger', 'delete-button');
+            deleteButton.classList.add('minha-tabela__botao-excluir'); /* Removido btn, btn-sm, btn-danger */
             acoesCell.appendChild(deleteButton);
             newRow.appendChild(acoesCell);
 
@@ -115,14 +133,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function generateReport() {
         let relatorio = ``;
 
-        if (protocoloInput.value.trim()) {
-            relatorio += `Protocolo: ${protocoloInput.value.trim()}\n`;
+        if (protocoloValue) {
+            relatorio += `Protocolo: ${protocoloValue}\n`;
         }
 
-        relatorio += `Verificação CTO: ${ctoNameInput.value.trim()}\n`;
+        relatorio += `Verificação CTO/OLT: ${ctoNameValue}\n`;
 
-        if (gponInput.value.trim()) {
-            relatorio += `Gpon: ${gponInput.value.trim()}\n`;
+        if (gponNameValue) {
+            relatorio += `Gpon: ${gponNameValue}\n`;
         }
 
         const portasLivres = [];
@@ -162,23 +180,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Delegação de eventos para os botões de exclusão
     ctoTableBody.addEventListener('click', function(event) {
-        if (event.target.classList.contains('delete-button')) {
+         if (event.target.classList.contains('minha-tabela__botao-excluir')) {
             if (confirm('Tem certeza que deseja excluir esta porta?')) {
                 event.target.closest('tr').remove();
             }
         }
     });
 
-    // Gerar Relatório
-    gerarRelatorioBtn.addEventListener('click', function() {
-        const relatorio = generateReport(); // Gera o relatório
-        navigator.clipboard.writeText(relatorio)
-            .then(() => {
-                showMessage('Copiado para área de transferência!', 'success');
-            })
-            .catch(err => {
-                console.error('Falha ao copiar o relatório: ', err);
-                alert('Falha ao copiar o relatório para a área de transferência. Verifique as permissões do seu navegador.');
-            });
-    });
+   // Gerar Relatório
+   gerarRelatorioBtn.addEventListener('click', function() {
+    validateForm(); 
+
+     relatorioContainer.style.display = 'block';
+
+   const relatorio = generateReport(); // Gera o relatório
+   navigator.clipboard.writeText(relatorio)
+       .then(() => {
+           showMessage('Copiado para área de transferência!', 'success');
+       })
+       .catch(err => {
+           console.error('Falha ao copiar o relatório: ', err);
+           alert('Falha ao copiar o relatório para a área de transferência. Verifique as permissões do seu navegador.');
+       });
+});
 });
